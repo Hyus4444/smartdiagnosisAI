@@ -1,14 +1,5 @@
-import psycopg2
+from backend.app.core.security import get_password_hash 
 
-conn = psycopg2.connect(
-    host="localhost",
-    port=5432,
-    user="admin",
-    password="Admin12345678"
-    ,
-    dbname="smartdiagnosis_db"
-)
-
-print("OK")
-conn.close()
-
+password_hash = "test123"
+password_hashed = get_password_hash(password_hash)
+print ("Hashed password:", password_hashed)

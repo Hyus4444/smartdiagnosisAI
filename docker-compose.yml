@@ -13,6 +13,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - smartdiagnosis_net
+    secret_key:
+        - postgres_password
 
 volumes:
   postgres_data:
@@ -21,6 +23,3 @@ volumes:
 networks:
   smartdiagnosis_net:
     driver: bridge
-
-
-
