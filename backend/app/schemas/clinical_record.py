@@ -1,5 +1,6 @@
 from datetime import datetime
-from pydantic import BaseModel, Field
+import uuid
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ClinicalRecordCreate(BaseModel):
@@ -7,18 +8,16 @@ class ClinicalRecordCreate(BaseModel):
 
 
 class ClinicalRecordReadBrief(BaseModel):
-    id: str
+    id: uuid.UUID
     created_at: datetime
-
-    class Config:
-        from_attributes = True
+    
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ClinicalRecordRead(BaseModel):
-    id: str
-    patient_id: str
+    id: uuid.UUID
+    patient_id: uuid.UUID
     content: str
     created_at: datetime
-
-    class Config:
-        from_attributes = True
+    
+    model_config = ConfigDict(from_attributes=True)

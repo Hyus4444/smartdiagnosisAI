@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from typing import List
-from pydantic import BaseModel, Field, field_validator
+import uuid
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from app.schemas.clinical_record import ClinicalRecordReadBrief
 class PatientCreate(BaseModel):
     full_name: str = Field(min_length=3, max_length=120)
@@ -21,8 +22,9 @@ class PatientCreate(BaseModel):
         if v > d.today():
             raise ValueError("birth_date no puede ser futura")
         return v
+
 class PatientRead(BaseModel):
-    id: str
+    id: uuid.UUID
     full_name: str
     document_type: str
     document_number: str
@@ -30,11 +32,10 @@ class PatientRead(BaseModel):
     gender: str
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
 
 class PatientReadWithRecords(PatientRead):
     clinical_records: List[ClinicalRecordReadBrief] = []
+    model_config = ConfigDict(from_attributes=True)
 
-    class Config:
-        from_attributes = True

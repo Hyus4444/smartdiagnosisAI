@@ -10,7 +10,8 @@ from app.models.user import User
 
 load_dotenv()
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+
 SECRET_KEY = cast(str, os.getenv("SECRET_KEY"))
 ALGORITHM = "HS256"
 

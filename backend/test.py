@@ -38,7 +38,6 @@ def main():
         items, total = list_patients(db, q="Juan")
         print("PACIENTES:", total)
 
-        # ---------- CLINICAL RECORD (AQUÍ VA LA PRUEBA) ----------
         record = create_clinical_record(
             db,
             patient.id,
