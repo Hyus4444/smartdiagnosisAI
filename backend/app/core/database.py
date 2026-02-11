@@ -1,3 +1,5 @@
+#Documento transversal para declarar la conexión a la base de datos, el motor de SQLAlchemy y la función de dependencia para obtener una sesión de base de datos en los 
+#endpoints.
 import os
 from sqlalchemy import create_engine 
 from sqlalchemy.orm import sessionmaker, declarative_base

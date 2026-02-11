@@ -1,3 +1,4 @@
+## Este servicio maneja la lógica de negocio relacionada con los registros clínicos, como creación y listado por paciente.
 import uuid
 from sqlalchemy import func
 from sqlalchemy.orm import Session
@@ -10,6 +11,7 @@ def create_clinical_record(
     db: Session,
     patient_id: uuid.UUID,
     data: ClinicalRecordCreate,
+    creator_id: uuid.UUID
 ) -> ClinicalRecord:
     # Verificar que el paciente existe (sin endpoints aún, error de dominio)
     patient_exists = db.query(Patient.id).filter(Patient.id == patient_id).first()
@@ -17,6 +19,7 @@ def create_clinical_record(
         raise ValueError("Paciente no existe.")
 
     record = ClinicalRecord(
+        created_by=creator_id,
         patient_id=patient_id,
         content=data.content.strip(),
     )

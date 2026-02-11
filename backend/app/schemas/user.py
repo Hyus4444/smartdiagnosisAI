@@ -1,3 +1,5 @@
+#Este documento define los esquemas de datos relacionados con los usuarios, incluyendo la creación de un nuevo usuario y la lectura de usuarios existentes. 
+#Estos esquemas se utilizan para validar y estructurar los datos que se envían y reciben en las operaciones relacionadas con los usuarios.
 import uuid
 from pydantic import BaseModel, ConfigDict, EmailStr
 from datetime import datetime

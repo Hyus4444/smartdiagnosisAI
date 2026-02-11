@@ -1,3 +1,4 @@
+##Modelos de entidades clínicas, como registros médicos, diagnósticos, tratamientos, etc.
 import uuid
 from sqlalchemy import Text, DateTime, ForeignKey, func, Index
 from sqlalchemy.dialects.postgresql import UUID

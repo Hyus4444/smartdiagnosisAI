@@ -1,3 +1,4 @@
+## Documento transversal para manejar la seguridad de la aplicación, incluyendo funciones para hashing de contraseñas, verificación de contraseñas y generación de tokens JWT.
 from datetime import datetime, timedelta
 from jose import jwt
 from passlib.context import CryptContext

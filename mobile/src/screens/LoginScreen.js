@@ -1,3 +1,4 @@
+/*LoginScreen permite a los usuarios ingresar su email y contraseña para acceder a la aplicación. Incluye validación de campos y manejo de errores al intentar iniciar sesión.*/
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";

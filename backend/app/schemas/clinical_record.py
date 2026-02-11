@@ -1,3 +1,5 @@
+#Este documento define los esquemas de datos relacionados con los registros clínicos, incluyendo la creación de un nuevo registro y la lectura de registros existentes. 
+#Estos esquemas se utilizan para validar y estructurar los datos que se envían y reciben en las operaciones relacionadas con los registros clínicos.
 from datetime import datetime
 import uuid
 from pydantic import BaseModel, ConfigDict, Field

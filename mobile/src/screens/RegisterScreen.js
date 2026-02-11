@@ -1,3 +1,5 @@
+/*RegisterScreen permite a los usuarios crear una nueva cuenta ingresando su email y contraseña. Incluye validación de campos y manejo de errores al intentar registrarse.
+Al registrarse exitosamente, redirige a la pantalla de login para que el usuario pueda iniciar sesión con su nueva cuenta.*/
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";

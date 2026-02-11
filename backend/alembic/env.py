@@ -1,3 +1,6 @@
+#Documento para la configuracion de Alembic, que es una herramienta de migración de bases de datos para SQLAlchemy. Este archivo se utiliza para definir cómo se deben ejecutar 
+#las migraciones, ya sea en modo "offline" o "online". También se importa el modelo de datos para que Alembic pueda generar las migraciones automáticamente basándose en los 
+#cambios en el modelo.
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool

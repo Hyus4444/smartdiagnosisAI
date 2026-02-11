@@ -1,1 +1,19 @@
-Generic single-database configuration.
+1. Qué es Alembic en este proyecto
+-Herramienta de migraciones para PostgreSQL.
+-Gestiona cambios de esquema versionados.
+-Reemplaza el uso anterior de Base.metadata.create_all().
+-Forma parte oficial de la arquitectura del backend.
+
+2. Flujo de trabajo definido
+Crear migración:
+    alembic revision --autogenerate -m "message"
+Aplicar migración:
+    alembic upgrade head
+Revertir:
+    alembic downgrade -1
+
+3. Regla del proyecto
+No modificar tablas manualmente en la base de datos.
+Todo cambio estructural debe pasar por migración.
+No eliminar archivos de versiones.
+No modificar manualmente down_revision.

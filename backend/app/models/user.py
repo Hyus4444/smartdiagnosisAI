@@ -1,7 +1,8 @@
+## Modelo de usuario, con campos para autenticación y relación con pacientes.
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from app.core.database import Base
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Boolean, DateTime, func
 class User(Base):
     __tablename__ = "users"
@@ -16,4 +17,9 @@ class User(Base):
 
     created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
+    patients = relationship(
+        "Patient", 
+        back_populates="creator"
+    )
 

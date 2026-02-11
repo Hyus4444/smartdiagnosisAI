@@ -1,6 +1,6 @@
+##Endpoints para manejo de autenticación, incluyendo login y acceso a información del usuario autenticado, con validaciones de credenciales y generación de tokens JWT.
 from fastapi import APIRouter, Depends, HTTPException, status, Form
 from sqlalchemy.orm import Session
-
 from app.core.database import get_db
 from app.models.user import User
 from app.schemas.auth import Token

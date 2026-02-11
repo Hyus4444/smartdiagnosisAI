@@ -1,3 +1,4 @@
+## Este servicio maneja la lógica de negocio relacionada con los pacientes, como creación, búsqueda y listado.
 import uuid
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func
@@ -7,8 +8,8 @@ from app.models.patient import Patient
 from app.schemas.patient import PatientCreate
 
 
-def get_patient_by_id(db: Session, patient_id: uuid.UUID) -> Patient | None:
-    return db.query(Patient).filter(Patient.id == patient_id).first()
+def get_patient_by_id(db: Session, patient_id: uuid.UUID, creator_id: uuid.UUID) -> Patient | None:
+    return db.query(Patient).filter(Patient.id == patient_id, Patient.created_by == creator_id).first()
 
 
 def get_patient_by_document(db: Session, document_type: str, document_number: str) -> Patient | None:
@@ -22,11 +23,12 @@ def get_patient_by_document(db: Session, document_type: str, document_number: st
     
 def list_patients(
     db: Session,
+    creator_id: uuid.UUID,
     skip: int = 0,
     limit: int = 20,
     q: str | None = None,
 ) -> tuple[list[Patient], int]:
-    query = db.query(Patient)
+    query = db.query(Patient).filter(Patient.created_by == creator_id)
 
     if q:
         term = f"%{q.strip()}%"
@@ -48,7 +50,7 @@ def list_patients(
 
     return items, total
 
-def create_patient(db: Session, data: PatientCreate) -> Patient:
+def create_patient(db: Session, data: PatientCreate, creator_id: uuid.UUID) -> Patient:
     # Normalización para consistencia (y evitar cc/CC)
     doc_type = data.document_type.strip().upper()
     doc_number = data.document_number.strip()
@@ -59,6 +61,7 @@ def create_patient(db: Session, data: PatientCreate) -> Patient:
         document_number=doc_number,
         birth_date=data.birth_date,
         gender=data.gender.strip(),
+        created_by=creator_id,
     )
 
     db.add(patient)

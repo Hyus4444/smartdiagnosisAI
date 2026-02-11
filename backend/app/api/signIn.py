@@ -1,3 +1,4 @@
+##EndPoint para registro de usuarios, con validaciones de email y contraseña.
 import re
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session

@@ -1,5 +1,6 @@
+##Modelo de paciente, con información personal y relación con registros clínicos.
 import uuid
-from sqlalchemy import String, Date, DateTime, func, Index
+from sqlalchemy import String, Date, DateTime, func, Index, Column, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.database import Base
@@ -19,7 +20,11 @@ class Patient(Base):
         server_default=func.now(),
         nullable=False,
     )
-
+    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False, index=True)
+    creator = relationship(
+        "User", 
+        back_populates="patients"
+        )
     clinical_records = relationship(
         "ClinicalRecord",
         back_populates="patient",

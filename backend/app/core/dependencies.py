@@ -1,3 +1,4 @@
+##Documento transversal para declarar las dependencias comunes utilizadas en los endpoints, como la autenticación de usuarios y la gestión de sesiones de base de datos.
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError

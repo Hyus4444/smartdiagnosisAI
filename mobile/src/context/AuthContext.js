@@ -1,3 +1,6 @@
+/*Contexto de autenticación para manejar el estado de autenticación en la aplicación. Proporciona funciones para iniciar sesión, registrarse y cerrar sesión, 
+así como el estado de carga y el token de autenticación. Este contexto se utiliza para compartir la información de autenticación en toda la aplicación y controlar 
+el acceso a las pantallas protegidas.*/
 import React, { createContext, useState } from "react";
 import * as authService from "../services/authService";
 
@@ -10,8 +13,8 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setIsLoading(true);
     try {
-      const data = await authService.login(email, password);
-      setToken(data.access_token);
+      const token = await authService.login(email, password);
+      setToken(token);
     } finally {
       setIsLoading(false);
     }

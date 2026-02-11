@@ -1,3 +1,5 @@
+#Este documento define los esquemas de datos relacionados con los pacientes, incluyendo la creación de un nuevo paciente y la lectura de pacientes existentes. 
+#Estos esquemas se utilizan para validar y estructurar los datos que se envían y reciben en las operaciones relacionadas con los pacientes.
 from datetime import date, datetime
 from typing import List
 import uuid
@@ -31,6 +33,7 @@ class PatientRead(BaseModel):
     birth_date: date
     gender: str
     created_at: datetime
+    created_by: uuid.UUID
 
     model_config = ConfigDict(from_attributes=True)
 
