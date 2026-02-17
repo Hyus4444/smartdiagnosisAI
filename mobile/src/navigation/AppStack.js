@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import CreatePatientScreen from "../screens/CreatePatientScreen";
 import PatientDetailScreen from "../screens/PatientDetailScreen";
+import CreateClinicalRecordScreen from "../screens/CreateClinicalRecordScreen";
+import AccountScreen from "../screens/ConfigScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,13 +19,28 @@ export default function AppStack() {
       />
       <Stack.Screen
         name="CreatePatient"
-        component={CreatePatientScreen} 
+        component={CreatePatientScreen}
         options={{ title: "Crear Paciente" }}
       />
       <Stack.Screen
         name="PatientDetail"
         component={PatientDetailScreen}
         options={{ title: "Detalle del Paciente" }}
+      />
+      <Stack.Screen
+        name="CreateClinicalRecord"
+        component={CreateClinicalRecordScreen}
+        options={{ title: "Agregar Registro Clínico" }}
+      />
+      <Stack.Screen
+        name="Config"
+        component={AccountScreen}
+        options={{ title: "Configuración" }}
+      />
+      <Stack.Screen
+        name="ClinicalRecordsList"
+        component={require("../screens/ClinicalRecordScreen").default}
+        options={{ title: "Historial Clínico" }}
       />
     </Stack.Navigator>
   );

@@ -5,13 +5,12 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   TouchableOpacity,
-  ActivityIndicator,
   Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import api from "../config/api";
+import { globalStyles } from "../styles/globalStyles";
 
 export default function CreatePatientScreen() {
   const navigation = useNavigation();
@@ -68,7 +67,10 @@ export default function CreatePatientScreen() {
       }
 
       if (status === 422) {
-        Alert.alert("Validation", "Invalid fields. Check values and try again.");
+        Alert.alert(
+          "Validation",
+          "Invalid fields. Check values and try again.",
+        );
         return;
       }
 
@@ -84,113 +86,80 @@ export default function CreatePatientScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create patient</Text>
+    <View style={globalStyles.container}>
+      <View style={globalStyles.paddedContainer}>
+        <View style={{ marginBottom: 12 }}>
+          <Text style={globalStyles.label}>Nombre completo</Text>
+          <TextInput
+            style={globalStyles.input}
+            value={fullName}
+            onChangeText={setFullName}
+            placeholder="e.g. Maria Lopez"
+            autoCapitalize="words"
+          />
+        </View>
+        <View style={globalStyles.row}>
+          <View style={{ flex: 1, marginBottom: 12 }}>
+            <Text style={globalStyles.label}>Tipo de documento</Text>
+            <TextInput
+              style={globalStyles.input}
+              value={documentType}
+              onChangeText={setDocumentType}
+              placeholder="CC"
+              autoCapitalize="characters"
+            />
+          </View>
 
-      <View style={styles.field}>
-        <Text style={styles.label}>Full name</Text>
-        <TextInput
-          style={styles.input}
-          value={fullName}
-          onChangeText={setFullName}
-          placeholder="e.g. Maria Lopez"
-          autoCapitalize="words"
-        />
+          <View style={{ flex: 2, marginBottom: 12 }}>
+            <Text style={globalStyles.label}>Número de documento</Text>
+            <TextInput
+              style={globalStyles.input}
+              value={documentNumber}
+              onChangeText={setDocumentNumber}
+              placeholder="e.g. 987654321"
+              keyboardType="default"
+            />
+          </View>
+        </View>
+
+        <View style={globalStyles.row}>
+          <View style={{ flex: 1, marginBottom: 12 }}>
+            <Text style={globalStyles.label}>Fecha de nacimiento</Text>
+            <TextInput
+              style={globalStyles.input}
+              value={birthDate}
+              onChangeText={setBirthDate}
+              placeholder="YYYY-MM-DD"
+            />
+          </View>
+
+          <View style={{ flex: 1, marginBottom: 12 }}>
+            <Text style={globalStyles.label}>Género</Text>
+            <TextInput
+              style={globalStyles.input}
+              value={gender}
+              onChangeText={setGender}
+              placeholder="M / F"
+              autoCapitalize="characters"
+            />
+          </View>
+        </View>
       </View>
-
-      <View style={styles.row}>
-        <View style={[styles.field, { flex: 1 }]}>
-          <Text style={styles.label}>Document type</Text>
-          <TextInput
-            style={styles.input}
-            value={documentType}
-            onChangeText={setDocumentType}
-            placeholder="CC"
-            autoCapitalize="characters"
-          />
-        </View>
-
-        <View style={[styles.field, { flex: 2 }]}>
-          <Text style={styles.label}>Document number</Text>
-          <TextInput
-            style={styles.input}
-            value={documentNumber}
-            onChangeText={setDocumentNumber}
-            placeholder="e.g. 987654321"
-            keyboardType="default"
-          />
-        </View>
+      <View style={globalStyles.footer}>
+        {/* Acciones inferiores */}
+        <TouchableOpacity
+          style={[globalStyles.buttonSecondary, { marginTop: 8, flex: 1 }]}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={globalStyles.buttonTextPrimary}>Cancelar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[globalStyles.buttonPrimary, { marginTop: 8, flex: 1 }]}
+          onPress={handleCreate}
+        >
+          <Text style={globalStyles.buttonTextPrimary}>Guardar</Text>
+        </TouchableOpacity>
       </View>
-
-      <View style={styles.row}>
-        <View style={[styles.field, { flex: 1 }]}>
-          <Text style={styles.label}>Birth date</Text>
-          <TextInput
-            style={styles.input}
-            value={birthDate}
-            onChangeText={setBirthDate}
-            placeholder="YYYY-MM-DD"
-          />
-        </View>
-
-        <View style={[styles.field, { flex: 1 }]}>
-          <Text style={styles.label}>Gender</Text>
-          <TextInput
-            style={styles.input}
-            value={gender}
-            onChangeText={setGender}
-            placeholder="M / F"
-            autoCapitalize="characters"
-          />
-        </View>
-      </View>
-
-      <TouchableOpacity
-        style={[styles.button, loading && styles.buttonDisabled]}
-        onPress={handleCreate}
-        disabled={loading}
-      >
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={styles.buttonText}>Save</Text>
-        )}
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.link}
-        onPress={() => navigation.goBack()}
-        disabled={loading}
-      >
-        <Text style={styles.linkText}>Cancel</Text>
-      </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: "#fff" },
-  title: { fontSize: 18, fontWeight: "600", marginBottom: 16 },
-  field: { marginBottom: 12 },
-  label: { fontSize: 12, color: "#666", marginBottom: 6 },
-  input: {
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 14,
-  },
-  row: { flexDirection: "row", gap: 12 },
-  button: {
-    marginTop: 10,
-    backgroundColor: "#000",
-    paddingVertical: 14,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  buttonDisabled: { opacity: 0.7 },
-  buttonText: { color: "#fff", fontSize: 16, fontWeight: "600" },
-  link: { marginTop: 12, alignItems: "center" },
-  linkText: { color: "#444" },
-});

@@ -1,7 +1,8 @@
 /*LoginScreen permite a los usuarios ingresar su email y contraseña para acceder a la aplicación. Incluye validación de campos y manejo de errores al intentar iniciar sesión.*/
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity} from "react-native";
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { globalStyles } from "../styles/globalStyles";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -26,69 +27,42 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Email</Text>
+    <View style={[globalStyles.paddedContainer, { justifyContent: "center" }]}>
+      <Text style={globalStyles.label}>Email</Text>
       <TextInput
-        style={styles.input}
+        style={globalStyles.input}
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
       />
 
-      <Text style={styles.label}>Contraseña</Text>
+      <Text style={globalStyles.label}>Contraseña</Text>
       <TextInput
-        style={styles.input}
+        style={globalStyles.input}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
 
-      <View style={styles.button}>
-        <Button title="Login" onPress={handleLogin} />
-      </View>
+      <TouchableOpacity
+        style={globalStyles.buttonPrimary}
+        onPress={() => handleLogin()}
+      >
+        <Text style={globalStyles.buttonTextPrimary}>Iniciar sesión</Text>
+      </TouchableOpacity>
 
-      <Text style={styles.footerText}>¿No tienes una cuenta?</Text>
-      <Button
-        title="Registrarse"
+      <Text
+        style={[globalStyles.mutedText, { marginTop: 10, textAlign: "center" }]}
+      >
+        ¿No tienes una cuenta?
+      </Text>
+      <TouchableOpacity
+        style={globalStyles.buttonSecondary} 
         onPress={() => navigation.navigate("Register")}
-      />
+      >
+        <Text style={globalStyles.buttonTextPrimary}>Registrarse</Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "600",
-    marginBottom: 24,
-    textAlign: "center",
-  },
-  label: {
-    fontSize: 12,
-    color: "#666",
-    marginBottom: 4,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    marginBottom: 12,
-    backgroundColor: "#fff",
-  },
-  button: {
-    marginTop: 8,
-    marginBottom: 16,
-  },
-  footerText: {
-    textAlign: "center",
-    marginBottom: 6,
-  },
-});

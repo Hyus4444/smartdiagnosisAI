@@ -4,14 +4,14 @@ la pantalla de creación de paciente. El header tiene un botón de configuració
 import {
   View,
   Text,
-  StyleSheet,
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { useEffect, useLayoutEffect, useState, useCallback} from "react";
+import { useLayoutEffect, useState, useCallback} from "react";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import api from "../config/api";
+import { globalStyles } from "../styles/globalStyles";
 
 
 export default function HomeScreen() {
@@ -50,13 +50,11 @@ export default function HomeScreen() {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          style={styles.headerButton}
-          onPress={() => {
-            // futuro: navegación a configuración de cuenta
-            console.log("Account settings");
+          style={globalStyles.headerButton}
+          onPress={() => {navigation.navigate("Config")
           }}
         >
-          <Text style={styles.headerButtonText}>⚙️</Text>
+          <Text style={globalStyles.headerButtonText}>⚙️</Text>
         </TouchableOpacity>
       ),
       title: "Pacientes",
@@ -65,110 +63,43 @@ export default function HomeScreen() {
 
   const renderPatient = ({ item }) => (
     <TouchableOpacity
-      style={styles.card}
+      style={globalStyles.card}
       onPress={() => {
         navigation.navigate("PatientDetail", { patientId: item.id })
       }}
     >
-      <Text style={styles.name}>{item.full_name}</Text>
-      <Text style={styles.document}>
+      <Text style={globalStyles.name}>{item.full_name}</Text>
+      <Text style={globalStyles.smallText}>
         {item.document_type} {item.document_number}
       </Text>
     </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.container}>
       {loading ? (
         <ActivityIndicator size="large" />
       ) : patients.length === 0 ? (
-        <View style={styles.empty}>
-          <Text style={styles.emptyText}>No patients registered yet</Text>
+        <View style={globalStyles.empty}>
+          <Text style={globalStyles.mutedText}>Sin pacientes registrados</Text>
         </View>
       ) : (
         <FlatList
           data={patients}
           keyExtractor={(item) => item.id}
           renderItem={renderPatient}
-          contentContainerStyle={styles.list}
+          contentContainerStyle={globalStyles.list}
         />
       )}
 
       {/* Botón inferior fijo */}
       <TouchableOpacity
-        style={styles.addButton}
+        style={globalStyles.addButton}
         onPress={() => {navigation.navigate("CreatePatient")
         }}
       >
-        <Text style={styles.addButtonText}>＋ Add patient</Text>
+        <Text style={globalStyles.buttonTextPrimary}>＋ Agregar paciente</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  list: {
-    padding: 16,
-    paddingBottom: 100, // espacio para el botón inferior
-  },
-
-  card: {
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-    marginBottom: 12,
-  },
-
-  name: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 4,
-  },
-
-  document: {
-    fontSize: 13,
-    color: "#666",
-  },
-
-  empty: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  emptyText: {
-    fontSize: 14,
-    color: "#666",
-  },
-
-  addButton: {
-    position: "absolute",
-    bottom: 20,
-    left: 20,
-    right: 20,
-    backgroundColor: "#000",
-    paddingVertical: 14,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-
-  addButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-
-  headerButton: {
-    marginRight: 12,
-  },
-
-  headerButtonText: {
-    fontSize: 18,
-  },
-});

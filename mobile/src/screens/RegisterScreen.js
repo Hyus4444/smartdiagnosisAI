@@ -1,8 +1,9 @@
 /*RegisterScreen permite a los usuarios crear una nueva cuenta ingresando su email y contraseña. Incluye validación de campos y manejo de errores al intentar registrarse.
 Al registrarse exitosamente, redirige a la pantalla de login para que el usuario pueda iniciar sesión con su nueva cuenta.*/
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { globalStyles } from "../styles/globalStyles";
 
 export default function RegisterScreen({ navigation }) {
   const { register } = useContext(AuthContext);
@@ -44,57 +45,50 @@ export default function RegisterScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Nombre completo</Text>
+    <View style={[globalStyles.paddedContainer, { gap: 10 }]}>
+      <Text style={globalStyles.label}>Nombre completo</Text>
       <TextInput
-        style={styles.input}
+        style={globalStyles.input}
         value={fullName}
         onChangeText={setFullName}
         autoCapitalize="words"
       />
 
-      <Text style={styles.label}>Email</Text>
+      <Text style={globalStyles.label}>Email</Text>
       <TextInput
-        style={styles.input}
+        style={globalStyles.input}
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
       />
 
-      <Text style={styles.label}>Contraseña</Text>
+      <Text style={globalStyles.label}>Contraseña</Text>
       <TextInput
-        style={styles.input}
+        style={globalStyles.input}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Text style={{ fontSize: 12, color: "#666", textAlign: "center" }}>
+      <Text style={[globalStyles.mutedText, { textAlign: "center" }]}>
         La contraseña debe tener al menos 7 caracteres y contener un número o un
         símbolo especial
       </Text>
 
-      <Button title="Crear cuenta" onPress={handleRegister} />
+      <TouchableOpacity
+        style={globalStyles.buttonPrimary}
+        onPress={() => handleRegister()}
+      >
+        <Text style={globalStyles.buttonTextPrimary}>Registrarse</Text>
+      </TouchableOpacity>
 
-      <View style={{ height: 10 }} />
-      <Button
-        title="Volver a Login"
+      <View/>
+      <TouchableOpacity
+        style={globalStyles.buttonSecondary}
         onPress={() => navigation.navigate("Login")}
-      />
+      >
+        <Text style={globalStyles.buttonTextPrimary}>Volver a Login</Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, gap: 10 },
-  title: { fontSize: 22, fontWeight: "600", marginBottom: 10 },
-  label: { fontSize: 12, color: "#666" },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    backgroundColor: "#fff",
-  },
-});

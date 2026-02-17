@@ -1,6 +1,6 @@
 ##Modelos de entidades clínicas, como registros médicos, diagnósticos, tratamientos, etc.
 import uuid
-from sqlalchemy import Text, DateTime, ForeignKey, func, Index
+from sqlalchemy import Column, Text, DateTime, ForeignKey, func, Index
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.database import Base
@@ -23,8 +23,10 @@ class ClinicalRecord(Base):
         server_default=func.now(),
         nullable=False,
     )
+    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     patient = relationship("Patient", back_populates="clinical_records")
 
     __table_args__ = (
         Index("ix_clinical_records_patient_created", "patient_id", "created_at"),
+        Index("ix_clinical_records_created_by", "created_by"),
     )
