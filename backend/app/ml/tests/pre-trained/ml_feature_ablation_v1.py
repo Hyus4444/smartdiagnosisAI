@@ -2,14 +2,7 @@
 """
 ML Feature Ablation (V1)
 - Compares models WITH vs WITHOUT one-hot smoking_history
-- Uses reproducible sklearn Pipelines (preprocess + model)
 - Evaluates with holdout split + optional cross-validation
-
-Dataset expected:
-- diabetes_prediction_dataset.csv
-
-Run:
-    python ml_feature_ablation_v1.py
 """
 
 from __future__ import annotations
