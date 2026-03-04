@@ -6,6 +6,7 @@ import CreatePatientScreen from "../screens/CreatePatientScreen";
 import PatientDetailScreen from "../screens/PatientDetailScreen";
 import CreateClinicalRecordScreen from "../screens/CreateClinicalRecordScreen";
 import AccountScreen from "../screens/ConfigScreen";
+import ClinicalRecordDetailScreen from "../screens/ClinicalRecordDetailScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,9 +39,9 @@ export default function AppStack() {
         options={{ title: "Configuración" }}
       />
       <Stack.Screen
-        name="ClinicalRecordsList"
-        component={require("../screens/ClinicalRecordScreen").default}
-        options={{ title: "Historial Clínico" }}
+        name="ClinicalRecordDetail"
+        component={ClinicalRecordDetailScreen}
+        options={{ title: "Registro Clínico" }}
       />
     </Stack.Navigator>
   );
