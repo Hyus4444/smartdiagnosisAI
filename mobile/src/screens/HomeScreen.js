@@ -7,18 +7,20 @@ import {
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
+  Animated,
 } from "react-native";
-import { useLayoutEffect, useState, useCallback} from "react";
+import { useLayoutEffect, useState, useCallback, useEffect, useRef } from "react";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import api from "../config/api";
 import { globalStyles } from "../styles/globalStyles";
-
 
 export default function HomeScreen() {
   const navigation = useNavigation();
 
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const fetchPatients = async () => {
     setLoading(true);
@@ -39,19 +41,27 @@ export default function HomeScreen() {
     }
   };
 
-  useFocusEffect(
-  useCallback(() => {
-    fetchPatients();
-  }, [])
-);
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 320,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim, patients.length, loading]);
 
-  // Header button (configuración de cuenta - placeholder)
+  useFocusEffect(
+    useCallback(() => {
+      fetchPatients();
+    }, [])
+  );
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
           style={globalStyles.headerButton}
-          onPress={() => {navigation.navigate("Config")
+          onPress={() => {
+            navigation.navigate("Config");
           }}
         >
           <Text style={globalStyles.headerButtonText}>⚙️</Text>
@@ -62,23 +72,25 @@ export default function HomeScreen() {
   }, [navigation]);
 
   const renderPatient = ({ item }) => (
-    <TouchableOpacity
-      style={globalStyles.card}
-      onPress={() => {
-        navigation.navigate("PatientDetail", { patientId: item.id })
-      }}
-    >
-      <Text style={globalStyles.name}>{item.full_name}</Text>
-      <Text style={globalStyles.smallText}>
-        {item.document_type} {item.document_number}
-      </Text>
-    </TouchableOpacity>
+    <Animated.View style={{ opacity: fadeAnim }}>
+      <TouchableOpacity
+        style={globalStyles.card}
+        onPress={() => {
+          navigation.navigate("PatientDetail", { patientId: item.id });
+        }}
+      >
+        <Text style={globalStyles.name}>{item.full_name}</Text>
+        <Text style={globalStyles.smallText}>
+          {item.document_type} {item.document_number}
+        </Text>
+      </TouchableOpacity>
+    </Animated.View>
   );
 
   return (
     <View style={globalStyles.container}>
       {loading ? (
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#0A6FAE" />
       ) : patients.length === 0 ? (
         <View style={globalStyles.empty}>
           <Text style={globalStyles.mutedText}>Sin pacientes registrados</Text>
@@ -92,10 +104,10 @@ export default function HomeScreen() {
         />
       )}
 
-      {/* Botón inferior fijo */}
       <TouchableOpacity
         style={globalStyles.addButton}
-        onPress={() => {navigation.navigate("CreatePatient")
+        onPress={() => {
+          navigation.navigate("CreatePatient");
         }}
       >
         <Text style={globalStyles.buttonTextPrimary}>＋ Agregar paciente</Text>
