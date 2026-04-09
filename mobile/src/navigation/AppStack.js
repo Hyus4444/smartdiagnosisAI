@@ -7,12 +7,20 @@ import PatientDetailScreen from "../screens/PatientDetailScreen";
 import CreateClinicalRecordScreen from "../screens/CreateClinicalRecordScreen";
 import AccountScreen from "../screens/ConfigScreen";
 import ClinicalRecordDetailScreen from "../screens/ClinicalRecordDetailScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
 export default function AppStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#0A6FAE" },
+        headerTintColor: "#FFFFFF",
+        headerTitleStyle: { fontWeight: "700" },
+        contentStyle: { backgroundColor: "#F4F8FB" },
+      }}
+    >
       <Stack.Screen
         name="Home"
         component={HomeScreen}
@@ -37,6 +45,11 @@ export default function AppStack() {
         name="Config"
         component={AccountScreen}
         options={{ title: "Configuración" }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ title: "Perfil" }}
       />
       <Stack.Screen
         name="ClinicalRecordDetail"
