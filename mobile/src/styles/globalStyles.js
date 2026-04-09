@@ -1,214 +1,240 @@
 import { StyleSheet } from "react-native";
 
-/**
- * Estilos globales reutilizables en toda la aplicación.
- * Contiene:
- * - Layout base
- * - Tarjetas
- * - Tipografía común
- * - Botones primarios/secundarios
- * - Inputs
- */
+const COLORS = {
+  background: "#F4F8FB",
+  surface: "#FFFFFF",
+  border: "#D6E2EA",
+  primary: "#0A6FAE",
+  primaryDark: "#095B8E",
+  accent: "#0FA3B1",
+  text: "#102A43",
+  muted: "#627D98",
+  danger: "#C0392B",
+  success: "#2E8B57",
+};
 
 export const globalStyles = StyleSheet.create({
-  /* ===== Layout ===== */
-
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.background,
   },
-
   paddedContainer: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.background,
     padding: 16,
   },
-
   center: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-
   empty: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-
   list: {
     padding: 16,
-    paddingBottom: 100, // espacio para el botón inferior
+    paddingBottom: 100,
   },
   header: {
     padding: 16,
     borderBottomWidth: 1,
-    borderColor: "#eee",
-    backgroundColor: "#fff",
+    borderColor: COLORS.border,
+    backgroundColor: COLORS.surface,
   },
-
-  /* ===== Tarjetas ===== */
 
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.surface,
     padding: 16,
-    borderRadius: 10,
+    borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#e0e0e0",
+    borderColor: COLORS.border,
     marginBottom: 12,
+    shadowColor: "#0B2942",
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 8,
+    elevation: 2,
   },
-
+  cardCenter: {
+    backgroundColor: COLORS.surface,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    marginBottom: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    gap: 8,
+    alignItems: "center",
+  },
   patientCard: {
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.surface,
     padding: 16,
     borderBottomWidth: 1,
-    borderColor: "#eee",
+    borderColor: COLORS.border,
   },
-
   borderedSection: {
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.surface,
     padding: 16,
     borderBottomWidth: 1,
-    borderColor: "#eee",
+    borderColor: COLORS.border,
   },
-
-  /* ===== Tipografía ===== */
+  section: {
+    flex: 1,
+    margin: 16,
+    backgroundColor: COLORS.surface,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    overflow: "hidden",
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: COLORS.text,
+    paddingHorizontal: 14,
+    paddingTop: 14,
+    paddingBottom: 8,
+  },
 
   title: {
-    fontSize: 18,
-    fontWeight: "600",
+    fontSize: 20,
+    fontWeight: "700",
+    color: COLORS.text,
   },
-
   subtitle: {
     fontSize: 16,
     fontWeight: "600",
+    color: COLORS.text,
   },
-
   label: {
     fontSize: 12,
-    color: "#666",
+    color: COLORS.muted,
     marginBottom: 6,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
-
   text: {
-    fontSize: 14,
-    color: "#000",
+    fontSize: 15,
+    color: COLORS.text,
   },
-
   smallText: {
     fontSize: 13,
-    color: "#666",
+    color: COLORS.muted,
   },
-
   mutedText: {
-    fontSize: 12,
-    color: "#555",
+    fontSize: 13,
+    color: COLORS.muted,
   },
-
   name: {
     fontSize: 18,
-    fontWeight: "600",
+    fontWeight: "700",
     marginBottom: 4,
+    color: COLORS.text,
   },
-
-  /* ===== Filas ===== */
 
   row: {
     flexDirection: "row",
     marginBottom: 8,
     gap: 12,
   },
-
   rowBetween: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   rowButton: {
-    paddingVertical: 12,
+    paddingVertical: 14,
     borderTopWidth: 1,
-    borderTopColor: "#eee",
+    borderTopColor: COLORS.border,
   },
-
-  /* ===== Inputs ===== */
+  rowButtonText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: COLORS.text,
+  },
 
   input: {
     borderWidth: 1,
-    borderColor: "#e0e0e0",
-    borderRadius: 10,
+    borderColor: COLORS.border,
+    borderRadius: 12,
     padding: 12,
     fontSize: 14,
     marginBottom: 12,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.surface,
+    color: COLORS.text,
   },
-
   textarea: {
     borderWidth: 1,
-    borderColor: "#e0e0e0",
-    borderRadius: 10,
+    borderColor: COLORS.border,
+    borderRadius: 12,
     padding: 12,
     fontSize: 14,
     minHeight: 120,
     textAlignVertical: "top",
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.surface,
     marginBottom: 12,
+    color: COLORS.text,
   },
-
-  /* ===== Botones ===== */
 
   buttonPrimary: {
-    backgroundColor: "#006496",
+    backgroundColor: COLORS.primary,
     paddingVertical: 14,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: "center",
   },
-
   buttonSecondary: {
-    backgroundColor: "#000",
+    backgroundColor: COLORS.danger,
     paddingVertical: 14,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: "center",
   },
-
   addButton: {
     position: "absolute",
     bottom: 20,
     left: 20,
     right: 20,
-    backgroundColor: "#006496",
+    backgroundColor: COLORS.primary,
     paddingVertical: 14,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: "center",
+    shadowColor: "#093D5D",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 12,
+    elevation: 3,
   },
-
   buttonOutline: {
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: COLORS.primaryDark,
     paddingVertical: 14,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: "center",
+    backgroundColor: COLORS.surface,
   },
-
   buttonTextPrimary: {
     color: "#fff",
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: "700",
   },
-
   buttonTextOutline: {
-    color: "#000",
+    color: COLORS.primaryDark,
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: "700",
   },
-
   headerButton: {
     marginRight: 12,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#E5F1F8",
   },
-
   headerButtonText: {
-    fontSize: 18,
+    fontSize: 16,
   },
-  /* ===== Botones flotantes inferiores ===== */
 
   footer: {
     position: "absolute",
@@ -218,7 +244,6 @@ export const globalStyles = StyleSheet.create({
     flexDirection: "row",
     gap: 12,
   },
-
   bottomActionsColumn: {
     position: "absolute",
     bottom: 20,
@@ -228,17 +253,110 @@ export const globalStyles = StyleSheet.create({
     gap: 10,
   },
 
-  /* ===== Listas ===== */
-
   listItem: {
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.surface,
     padding: 14,
     borderBottomWidth: 1,
-    borderColor: "#eee",
+    borderColor: COLORS.border,
   },
-
+  listItemTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: COLORS.text,
+  },
+  listItemSubtitle: {
+    fontSize: 13,
+    marginTop: 4,
+    color: COLORS.muted,
+  },
   divider: {
     height: 1,
-    backgroundColor: "#eee",
+    backgroundColor: COLORS.border,
+  },
+
+  sectionSpacing: {
+    marginTop: 18,
+  },
+  heroCard: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 14,
+    padding: 18,
+    marginBottom: 14,
+  },
+  heroTitle: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "700",
+  },
+  heroText: {
+    color: "#DAECF8",
+    marginTop: 6,
+    fontSize: 13,
+  },
+  profileAvatar: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: "#DBEEF9",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+  profileAvatarText: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: COLORS.primaryDark,
+  },
+  profileValue: {
+    fontSize: 15,
+    color: COLORS.text,
+    marginBottom: 10,
+  },
+
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: "rgba(16,42,67,0.40)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  modalCard: {
+    width: "100%",
+    maxWidth: 420,
+    backgroundColor: COLORS.surface,
+    borderRadius: 16,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  modalTone: {
+    height: 5,
+    borderRadius: 8,
+    marginBottom: 14,
+  },
+  modalToneInfo: {
+    backgroundColor: COLORS.primary,
+  },
+  modalToneError: {
+    backgroundColor: COLORS.danger,
+  },
+  modalToneSuccess: {
+    backgroundColor: COLORS.success,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: COLORS.text,
+    marginBottom: 8,
+  },
+  modalMessage: {
+    fontSize: 14,
+    color: COLORS.muted,
+    lineHeight: 20,
+    marginBottom: 16,
+  },
+  modalActions: {
+    flexDirection: "row",
+    gap: 10,
   },
 });
