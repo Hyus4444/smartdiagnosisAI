@@ -1,12 +1,14 @@
 import { View, Text, TouchableOpacity, Alert, Animated } from "react-native";
-import { useLayoutEffect, useRef, useEffect } from "react";
+import { useContext, useLayoutEffect, useRef, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { globalStyles } from "../styles/globalStyles";
+import { AuthContext } from "../context/AuthContext";
 
 export default function AccountScreen() {
   const navigation = useNavigation();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(12)).current;
+  const { token, logout } = useContext(AuthContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: "Configuración" });
@@ -27,6 +29,22 @@ export default function AccountScreen() {
     ]).start();
   }, [fadeAnim, slideAnim]);
 
+
+  const handleLogout = () => {
+    Alert.alert("Cerrar sesión", "¿Deseas cerrar sesión ahora?", [
+      { text: "Cancelar", style: "cancel" },
+      {
+        text: "Cerrar sesión",
+        style: "destructive",
+        onPress: () => {
+          try {
+            delete api.defaults.headers.common.Authorization;
+          } catch (_) {}
+          logout();
+        },
+      },
+    ]);
+  };
   return (
     <View style={globalStyles.paddedContainer}>
       <View style={globalStyles.heroCard}>
@@ -53,21 +71,10 @@ export default function AccountScreen() {
         >
           <Text style={globalStyles.rowButtonText}>Perfil</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={globalStyles.rowButton}
-          onPress={() => Alert.alert("Próximamente", "Preferencias en desarrollo.")}
-        >
-          <Text style={globalStyles.rowButtonText}>Preferencias</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={globalStyles.rowButton}
-          onPress={() => Alert.alert("Próximamente", "Centro de soporte en desarrollo.")}
-        >
-          <Text style={globalStyles.rowButtonText}>Soporte</Text>
-        </TouchableOpacity>
       </Animated.View>
+      <TouchableOpacity style={globalStyles.buttonSecondary} onPress={handleLogout}>
+        <Text style={globalStyles.buttonTextPrimary}>Cerrar sesión</Text>
+      </TouchableOpacity>
     </View>
   );
 }

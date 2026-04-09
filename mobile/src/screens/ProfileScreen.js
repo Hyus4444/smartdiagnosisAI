@@ -1,11 +1,8 @@
-import { useContext, useEffect, useMemo, useRef } from "react";
-import { View, Text, Animated, TouchableOpacity, Alert } from "react-native";
-import { AuthContext } from "../context/AuthContext";
-import api from "../config/api";
+import { useEffect, useMemo, useRef } from "react";
+import { View, Text, Animated } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 
 export default function ProfileScreen() {
-  const { token, logout } = useContext(AuthContext);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(10)).current;
@@ -26,32 +23,14 @@ export default function ProfileScreen() {
   }, [fadeAnim, slideAnim]);
 
   const profileData = useMemo(() => {
-    const tokenShort = token ? `${token.slice(0, 12)}...` : "No disponible";
     return {
-      nombre: "Profesional de salud",
+      nombre: currentUser?.name || "Usuario desconocido",
       rol: "Cuenta clínica",
       estado: "Sesión activa",
-      credencial: tokenShort,
     };
-  }, [token]);
+  }, []);
 
   const initials = "PS";
-
-  const handleLogout = () => {
-    Alert.alert("Cerrar sesión", "¿Deseas cerrar sesión ahora?", [
-      { text: "Cancelar", style: "cancel" },
-      {
-        text: "Cerrar sesión",
-        style: "destructive",
-        onPress: () => {
-          try {
-            delete api.defaults.headers.common.Authorization;
-          } catch (_) {}
-          logout();
-        },
-      },
-    ]);
-  };
 
   return (
     <View style={globalStyles.paddedContainer}>
@@ -86,9 +65,7 @@ export default function ProfileScreen() {
         </View>
       </Animated.View>
 
-      <TouchableOpacity style={globalStyles.buttonSecondary} onPress={handleLogout}>
-        <Text style={globalStyles.buttonTextPrimary}>Cerrar sesión</Text>
-      </TouchableOpacity>
+      
     </View>
   );
 }
