@@ -1,0 +1,29 @@
+{
+  "random_state": 42,
+  "target": "diabetes",
+  "dropped_columns": [
+    "smoking_history"
+  ],
+  "drop_other_gender": true,
+  "data_file": "backend\\app\\ml\\data\\raw\\diabetes_prediction_dataset.csv",
+  "results_dir": "results\\finalists_no_smoking",
+  "models": [
+    "LogReg",
+    "SVM",
+    "RandomForest",
+    "HistGB"
+  ],
+  "features": [
+    "gender",
+    "age",
+    "hypertension",
+    "heart_disease",
+    "bmi",
+    "HbA1c_level",
+    "blood_glucose_level"
+  ],
+  "n_rows": 99982,
+  "n_train": 79985,
+  "n_test": 19997,
+  "positive_rate_full": 0.08501530275449581
+}

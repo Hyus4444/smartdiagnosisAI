@@ -1,0 +1,23 @@
+{
+  "random_state": 42,
+  "target": "diabetes",
+  "smoking_column": "smoking_history",
+  "drop_other_gender": true,
+  "data_path": "backend\\app\\ml\\data\\raw\\diabetes_prediction_dataset.csv",
+  "output_dir": "results",
+  "models": [
+    "LogReg",
+    "GaussianNB",
+    "SVM",
+    "RandomForest",
+    "ExtraTrees",
+    "HistGB"
+  ],
+  "ranking_formula": {
+    "holdout_roc_auc": 0.35,
+    "holdout_recall": 0.25,
+    "holdout_pr_auc": 0.2,
+    "holdout_f1": 0.1,
+    "holdout_precision": 0.1
+  }
+}

@@ -4,11 +4,13 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   FlatList,
+  Animated
 } from "react-native";
-import { useState, useLayoutEffect, useCallback } from "react";
+import { useState, useLayoutEffect, useCallback, useRef, useEffect } from "react";
 import { useRoute, useNavigation, useFocusEffect } from "@react-navigation/native";
 import api from "../config/api";
 import { globalStyles } from "../styles/globalStyles";
+import AppModal from "../components/AppModal";
 
 export default function PatientDetailScreen() {
   const route = useRoute();
@@ -18,6 +20,17 @@ export default function PatientDetailScreen() {
   const [patient, setPatient] = useState(null);
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [historyModalVisible, setHistoryModalVisible] = useState(false);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 280,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim, loading]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -25,12 +38,21 @@ export default function PatientDetailScreen() {
       const [patientRes, recordsRes] = await Promise.all([
         api.get(`/patients/${patientId}`),
         api.get(`/patients/${patientId}/clinical-records`, {
-          params: { skip: 0, limit: 10 },
+          params: { skip: 0, limit: 50 },
         }),
       ]);
 
       setPatient(patientRes.data);
-      setRecords(recordsRes.data?.items || []);
+      const orderedRecords = (recordsRes.data?.items || [])
+        .slice()
+        .sort((a, b) => {
+          const dateA = new Date(a.recorded_at || a.created_at || 0).getTime();
+          const dateB = new Date(b.recorded_at || b.created_at || 0).getTime();
+          return dateB - dateA;
+        })
+        .slice(0, 5);
+
+      setRecords(orderedRecords);
     } catch (err) {
       console.log(
         "Error detalle paciente:",
@@ -84,7 +106,7 @@ export default function PatientDetailScreen() {
   if (loading) {
     return (
       <View style={globalStyles.center}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#0A6FAE" />
       </View>
     );
   }
@@ -92,51 +114,38 @@ export default function PatientDetailScreen() {
   if (!patient) {
     return (
       <View style={globalStyles.center}>
-        <Text>Paciente no encontrado</Text>
+        <Text style={globalStyles.subtitle}>Paciente no encontrado</Text>
       </View>
     );
   }
 
   return (
-    <View style={globalStyles.container}>
-      {/* Información del paciente */}
+    <Animated.View style={[globalStyles.container, { opacity: fadeAnim }]}>
       <View style={globalStyles.patientCard}>
         <Text style={globalStyles.title}>{patient.full_name}</Text>
         <Text style={globalStyles.subtitle}>
           {patient.document_type} {patient.document_number}
         </Text>
-        <Text style={globalStyles.subtitle}>
-          Fecha de nacimiento: {patient.birth_date}
-        </Text>
+        <Text style={globalStyles.subtitle}>Fecha de nacimiento: {patient.birth_date}</Text>
         <Text style={globalStyles.subtitle}>Género: {patient.gender}</Text>
       </View>
 
-      {/* Lista corta de registros clínicos (últimos 10) */}
       <View style={globalStyles.section}>
         <Text style={globalStyles.sectionTitle}>Registros clínicos recientes</Text>
 
         {records.length === 0 ? (
           <Text style={globalStyles.subtitle}>No hay registros aún.</Text>
         ) : (
-          <FlatList
-            data={records}
-            keyExtractor={(item) => item.id}
-            renderItem={renderRecord}
-          />
+          <FlatList data={records} keyExtractor={(item) => item.id} renderItem={renderRecord} />
         )}
       </View>
 
-      {/* Acciones inferiores */}
       <View style={globalStyles.footer}>
         <TouchableOpacity
-          style={[
-            globalStyles.buttonPrimary,
-            globalStyles.buttonSecondary,
-            { flex: 1 },
-          ]}
-          onPress={() => navigation.navigate("ClinicalRecordsList", { patientId })}
+          style={[globalStyles.buttonOutline, { flex: 1 }]}
+          onPress={() => navigation.navigate("ClinicalRecordScreen", { patientId })}
         >
-          <Text style={globalStyles.buttonTextPrimary}>Ver historial</Text>
+          <Text style={globalStyles.buttonTextOutline}>Ver historial</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -146,6 +155,14 @@ export default function PatientDetailScreen() {
           <Text style={globalStyles.buttonTextPrimary}>Añadir historial</Text>
         </TouchableOpacity>
       </View>
-    </View>
+
+      <AppModal
+        visible={historyModalVisible}
+        title="Historial completo"
+        message="La vista completa del historial estará disponible en una próxima actualización. Por ahora puedes revisar los últimos registros en esta misma pantalla."
+        tone="info"
+        onPrimary={() => setHistoryModalVisible(false)}
+      />
+    </Animated.View>
   );
 }

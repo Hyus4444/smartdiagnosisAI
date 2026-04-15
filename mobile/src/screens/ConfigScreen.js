@@ -1,14 +1,14 @@
-import { View, Text, TouchableOpacity, Alert, Animated } from "react-native";
-import { useContext, useLayoutEffect, useRef, useEffect } from "react";
+import { View, Text, TouchableOpacity, Animated } from "react-native";
+import { useLayoutEffect, useRef, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { globalStyles } from "../styles/globalStyles";
-import { AuthContext } from "../context/AuthContext";
+import AppModal from "../components/AppModal";
 
 export default function AccountScreen() {
   const navigation = useNavigation();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(12)).current;
-  const { token, logout } = useContext(AuthContext);
+  const [infoModal, setInfoModal] = useState({ visible: false, title: "", message: "" });
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: "Configuración" });
@@ -30,30 +30,8 @@ export default function AccountScreen() {
   }, [fadeAnim, slideAnim]);
 
 
-  const handleLogout = () => {
-    Alert.alert("Cerrar sesión", "¿Deseas cerrar sesión ahora?", [
-      { text: "Cancelar", style: "cancel" },
-      {
-        text: "Cerrar sesión",
-        style: "destructive",
-        onPress: () => {
-          try {
-            delete api.defaults.headers.common.Authorization;
-          } catch (_) {}
-          logout();
-        },
-      },
-    ]);
-  };
   return (
     <View style={globalStyles.paddedContainer}>
-      <View style={globalStyles.heroCard}>
-        <Text style={globalStyles.heroTitle}>Centro de configuración</Text>
-        <Text style={globalStyles.heroText}>
-          Ajustes iniciales para una experiencia clínica profesional y ordenada.
-        </Text>
-      </View>
-
       <Animated.View
         style={[
           globalStyles.card,
@@ -64,7 +42,6 @@ export default function AccountScreen() {
         ]}
       >
         <Text style={globalStyles.subtitle}>Opciones de cuenta</Text>
-
         <TouchableOpacity
           style={globalStyles.rowButton}
           onPress={() => navigation.navigate("Profile")}
@@ -72,9 +49,13 @@ export default function AccountScreen() {
           <Text style={globalStyles.rowButtonText}>Perfil</Text>
         </TouchableOpacity>
       </Animated.View>
-      <TouchableOpacity style={globalStyles.buttonSecondary} onPress={handleLogout}>
-        <Text style={globalStyles.buttonTextPrimary}>Cerrar sesión</Text>
-      </TouchableOpacity>
+            <AppModal
+        visible={infoModal.visible}
+        title={infoModal.title}
+        message={infoModal.message}
+        tone="info"
+        onPrimary={() => setInfoModal({ visible: false, title: "", message: "" })}
+      />
     </View>
   );
 }

@@ -5,8 +5,8 @@ import * as SecureStore from "expo-secure-store";
 
 export async function login(email, password) {
   const body = new URLSearchParams();
-  body.append("username", email); 
-  body.append("password", password); 
+  body.append("username", email);
+  body.append("password", password);
 
   const res = await api.post("/auth/login", body.toString(), {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -18,16 +18,17 @@ export async function login(email, password) {
   return access_token;
 }
 
+export async function getMe() {
+  const res = await api.get("/auth/me");
+  return res.data;
+}
 
 export const register = async (userData) => {
   try {
     const response = await api.post("/auth/register", userData);
     return response.data;
   } catch (error) {
-    console.error(
-      "Register error:",
-      error.response?.data || error.message
-    );
+    console.error("Register error:", error.response?.data || error.message);
     throw error;
   }
 };

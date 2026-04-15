@@ -10,12 +10,12 @@ from app.models.patient import Patient
 from app.models.clinical_record import ClinicalRecord
 from app.models.prediction import Prediction
 
-# Rutas a artifacts
+#artefacts paths
 BASE_DIR = Path(__file__).resolve().parents[1]  # app/
-MODEL_PATH = BASE_DIR / "ml" / "models" / "smartdiagnosis_histgb_sigmoid_pipeline.joblib"
-META_PATH = BASE_DIR / "ml" / "models" / "smartdiagnosis_histgb_sigmoid_metadata.json"
+MODEL_PATH = BASE_DIR / "ml" / "model" / "svm_w13_sigmoid_threshold_020.joblib"
+META_PATH = BASE_DIR / "ml" / "model" / "metadata.json"
 
-# Cache en memoria (se carga 1 vez)
+#cache
 _PIPELINE = None
 _META = None
 
@@ -74,7 +74,7 @@ def predict_and_save(
     threshold = float(meta.get("threshold_selected_on_val", 0.5))
     label = 1 if proba >= threshold else 0
 
-    model_name = meta.get("model_type", "HistGB+Sigmoid")
+    model_name = meta.get("model_type", "SVM RBF + Sigmoid")
     model_version = meta.get("model_version", "v1")  # si no lo guardaste, queda v1
 
     pred = Prediction(

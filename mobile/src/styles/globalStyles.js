@@ -10,10 +10,11 @@ const COLORS = {
   text: "#102A43",
   muted: "#627D98",
   danger: "#C0392B",
+  success: "#2E8B57",
 };
 
 export const globalStyles = StyleSheet.create({
-  /* ===== Layout ===== */
+
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
@@ -49,7 +50,6 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: COLORS.surface,
   },
 
-  /* ===== Tarjetas ===== */
   card: {
     backgroundColor: COLORS.surface,
     padding: 16,
@@ -62,6 +62,18 @@ export const globalStyles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 8,
     elevation: 2,
+  },
+
+  cardCenter: {
+    backgroundColor: COLORS.surface,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    marginBottom: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    gap: 8,
+    alignItems: "center",
   },
 
   patientCard: {
@@ -78,7 +90,25 @@ export const globalStyles = StyleSheet.create({
     borderColor: COLORS.border,
   },
 
-  /* ===== Tipografía ===== */
+  section: {
+    flex: 1,
+    margin: 16,
+    backgroundColor: COLORS.surface,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    overflow: "hidden",
+  },
+
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: COLORS.text,
+    paddingHorizontal: 14,
+    paddingTop: 14,
+    paddingBottom: 8,
+  },
+
   title: {
     fontSize: 20,
     fontWeight: "700",
@@ -121,7 +151,6 @@ export const globalStyles = StyleSheet.create({
     color: COLORS.text,
   },
 
-  /* ===== Filas ===== */
   row: {
     flexDirection: "row",
     marginBottom: 8,
@@ -146,7 +175,6 @@ export const globalStyles = StyleSheet.create({
     color: COLORS.text,
   },
 
-  /* ===== Inputs ===== */
   input: {
     borderWidth: 1,
     borderColor: COLORS.border,
@@ -171,7 +199,6 @@ export const globalStyles = StyleSheet.create({
     color: COLORS.text,
   },
 
-  /* ===== Botones ===== */
   buttonPrimary: {
     backgroundColor: COLORS.primary,
     paddingVertical: 14,
@@ -208,6 +235,7 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 12,
     alignItems: "center",
+    backgroundColor: COLORS.surface,
   },
 
   buttonTextPrimary: {
@@ -236,7 +264,6 @@ export const globalStyles = StyleSheet.create({
     fontSize: 16,
   },
 
-  /* ===== Botones flotantes inferiores ===== */
   footer: {
     position: "absolute",
     bottom: 20,
@@ -255,7 +282,6 @@ export const globalStyles = StyleSheet.create({
     gap: 10,
   },
 
-  /* ===== Listas ===== */
   listItem: {
     backgroundColor: COLORS.surface,
     padding: 14,
@@ -263,12 +289,23 @@ export const globalStyles = StyleSheet.create({
     borderColor: COLORS.border,
   },
 
+  listItemTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: COLORS.text,
+  },
+
+  listItemSubtitle: {
+    fontSize: 13,
+    marginTop: 4,
+    color: COLORS.muted,
+  },
+
   divider: {
     height: 1,
     backgroundColor: COLORS.border,
   },
 
-  /* ===== Config / Perfil ===== */
   sectionSpacing: {
     marginTop: 18,
   },
@@ -312,5 +349,60 @@ export const globalStyles = StyleSheet.create({
     fontSize: 15,
     color: COLORS.text,
     marginBottom: 10,
+  },
+
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: "rgba(16,42,67,0.40)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+
+  modalCard: {
+    width: "100%",
+    maxWidth: 420,
+    backgroundColor: COLORS.surface,
+    borderRadius: 16,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+
+  modalTone: {
+    height: 5,
+    borderRadius: 8,
+    marginBottom: 14,
+  },
+
+  modalToneInfo: {
+    backgroundColor: COLORS.primary,
+  },
+
+  modalToneError: {
+    backgroundColor: COLORS.danger,
+  },
+
+  modalToneSuccess: {
+    backgroundColor: COLORS.success,
+  },
+
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: COLORS.text,
+    marginBottom: 8,
+  },
+
+  modalMessage: {
+    fontSize: 14,
+    color: COLORS.muted,
+    lineHeight: 20,
+    marginBottom: 16,
+  },
+
+  modalActions: {
+    flexDirection: "row",
+    gap: 10,
   },
 });

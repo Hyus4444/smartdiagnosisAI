@@ -1,0 +1,12 @@
+variable,value,predicted_risk,model,variant
+blood_glucose_level,120,0.0352768100145795,HistGB,raw
+blood_glucose_level,130,0.0352768100145795,HistGB,raw
+blood_glucose_level,140,0.0352768100145795,HistGB,raw
+blood_glucose_level,150,0.0352768100145795,HistGB,raw
+blood_glucose_level,160,0.0364765206866855,HistGB,raw
+blood_glucose_level,170,0.0364765206866855,HistGB,raw
+blood_glucose_level,180,0.0364765206866855,HistGB,raw
+blood_glucose_level,190,0.02378717362063091,HistGB,raw
+blood_glucose_level,200,0.02378717362063091,HistGB,raw
+blood_glucose_level,210,0.02378717362063091,HistGB,raw
+blood_glucose_level,220,0.9989129164598768,HistGB,raw

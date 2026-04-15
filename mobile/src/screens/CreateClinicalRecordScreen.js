@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert, Switch } from "react-native";
+import { useState, useRef, useEffect } from "react";
+import { View, Text, TextInput, TouchableOpacity, Switch, Animated, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import api from "../config/api";
 import { globalStyles } from "../styles/globalStyles";
+import AppModal from "../components/AppModal";
 
 export default function CreateClinicalRecordScreen() {
   const navigation = useNavigation();
@@ -10,8 +11,8 @@ export default function CreateClinicalRecordScreen() {
   const { patientId } = route.params;
 
   const [loading, setLoading] = useState(false);
+  const [modalData, setModalData] = useState({ visible: false, title: "", message: "", tone: "info" });
 
-  // Campos V1 (inputs)
   const [bloodGlucose, setBloodGlucose] = useState("");
   const [hba1c, setHba1c] = useState("");
   const [weightKg, setWeightKg] = useState("");
@@ -20,6 +21,20 @@ export default function CreateClinicalRecordScreen() {
   const [diastolic, setDiastolic] = useState("");
   const [heartDisease, setHeartDisease] = useState(false);
   const [notes, setNotes] = useState("");
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 260,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
+  const openModal = (title, message, tone = "info") => {
+    setModalData({ visible: true, title, message, tone });
+  };
 
   const handleSave = async () => {
     setLoading(true);
@@ -35,11 +50,9 @@ export default function CreateClinicalRecordScreen() {
         notes: notes?.trim() ? notes.trim() : null,
       };
 
-      // IMPORTANTE: el endpoint debe retornar el record creado (con id)
       const res = await api.post(`/patients/${patientId}/clinical-records`, payload);
       const created = res.data;
 
-      // Ir directo al detalle del registro (y allí ver predicción)
       navigation.replace("ClinicalRecordDetail", {
         patientId,
         recordId: created.id,
@@ -49,15 +62,15 @@ export default function CreateClinicalRecordScreen() {
       const data = err?.response?.data;
 
       if (status === 404) {
-        Alert.alert("No encontrado", data?.detail || "Paciente no encontrado.");
+        openModal("No encontrado", data?.detail || "Paciente no encontrado.", "error");
       } else if (status === 401) {
-        Alert.alert("No autorizado", "Inicia sesión de nuevo.");
+        openModal("No autorizado", "Inicia sesión de nuevo.", "error");
       } else if (status === 409) {
-        Alert.alert("Conflicto", data?.detail || "Conflicto al crear registro.");
+        openModal("Conflicto", data?.detail || "Conflicto al crear registro.", "error");
       } else if (status === 422) {
-        Alert.alert("Validación", "Revisa los campos requeridos y formatos numéricos.");
+        openModal("Validación", "Revisa los campos requeridos y formatos numéricos.", "error");
       } else {
-        Alert.alert("Error", data?.detail || err.message);
+        openModal("Error", data?.detail || err.message, "error");
       }
     } finally {
       setLoading(false);
@@ -65,85 +78,89 @@ export default function CreateClinicalRecordScreen() {
   };
 
   return (
-    <View style={globalStyles.paddedContainer}>
-      <Text style={globalStyles.title}>Nuevo registro clínico</Text>
+  <View style={globalStyles.container}>
+      <Animated.View style={{ flex: 1, opacity: fadeAnim }}>
+        <ScrollView contentContainerStyle={[globalStyles.paddedContainer, { paddingBottom: 120 }]}>
+          <Text style={globalStyles.title}>Nuevo registro clínico</Text>
 
-      <Text style={globalStyles.label}>Glucosa (mg/dL)</Text>
-      <TextInput
-        style={globalStyles.input}
-        value={bloodGlucose}
-        onChangeText={setBloodGlucose}
-        placeholder="Ej: 140"
-        keyboardType="numeric"
-      />
+          <Text style={globalStyles.label}>Glucosa (mg/dL)</Text>
+          <TextInput
+            style={globalStyles.input}
+            value={bloodGlucose}
+            onChangeText={setBloodGlucose}
+            placeholder="Ej: 140"
+            keyboardType="numeric"
+          />
 
-      <Text style={globalStyles.label}>HbA1c (%)</Text>
-      <TextInput
-        style={globalStyles.input}
-        value={hba1c}
-        onChangeText={setHba1c}
-        placeholder="Ej: 6.8"
-        keyboardType="numeric"
-      />
+          <Text style={globalStyles.label}>HbA1c (%)</Text>
+          <TextInput
+            style={globalStyles.input}
+            value={hba1c}
+            onChangeText={setHba1c}
+            placeholder="Ej: 6.8"
+            keyboardType="numeric"
+          />
 
-      <Text style={globalStyles.label}>Peso (kg)</Text>
-      <TextInput
-        style={globalStyles.input}
-        value={weightKg}
-        onChangeText={setWeightKg}
-        placeholder="Ej: 80"
-        keyboardType="numeric"
-      />
+          <Text style={globalStyles.label}>Peso (kg)</Text>
+          <TextInput
+            style={globalStyles.input}
+            value={weightKg}
+            onChangeText={setWeightKg}
+            placeholder="Ej: 80"
+            keyboardType="numeric"
+          />
 
-      <Text style={globalStyles.label}>Estatura (cm)</Text>
-      <TextInput
-        style={globalStyles.input}
-        value={heightCm}
-        onChangeText={setHeightCm}
-        placeholder="Ej: 175"
-        keyboardType="numeric"
-      />
+          <Text style={globalStyles.label}>Estatura (cm)</Text>
+          <TextInput
+            style={globalStyles.input}
+            value={heightCm}
+            onChangeText={setHeightCm}
+            placeholder="Ej: 175"
+            keyboardType="numeric"
+          />
 
-      <Text style={globalStyles.label}>Presión sistólica (mmHg)</Text>
-      <TextInput
-        style={globalStyles.input}
-        value={systolic}
-        onChangeText={setSystolic}
-        placeholder="Ej: 130"
-        keyboardType="numeric"
-      />
+          <Text style={globalStyles.label}>Presión sistólica (mmHg)</Text>
+          <TextInput
+            style={globalStyles.input}
+            value={systolic}
+            onChangeText={setSystolic}
+            placeholder="Ej: 130"
+            keyboardType="numeric"
+          />
 
-      <Text style={globalStyles.label}>Presión diastólica (mmHg)</Text>
-      <TextInput
-        style={globalStyles.input}
-        value={diastolic}
-        onChangeText={setDiastolic}
-        placeholder="Ej: 85"
-        keyboardType="numeric"
-      />
+          <Text style={globalStyles.label}>Presión diastólica (mmHg)</Text>
+          <TextInput
+            style={globalStyles.input}
+            value={diastolic}
+            onChangeText={setDiastolic}
+            placeholder="Ej: 85"
+            keyboardType="numeric"
+          />
 
-      <View style={globalStyles.row}>
-        <Text style={globalStyles.label}>Enfermedad cardíaca</Text>
-        <Switch value={heartDisease} onValueChange={setHeartDisease} />
-      </View>
+          <View style={globalStyles.rowBetween}>
+            <Text style={globalStyles.label}>Enfermedad cardíaca</Text>
+            <Switch value={heartDisease} onValueChange={setHeartDisease} />
+          </View>
 
-      <Text style={globalStyles.label}>Notas (opcional)</Text>
-      <TextInput
-        style={globalStyles.textarea}
-        value={notes}
-        onChangeText={setNotes}
-        placeholder="Observaciones…"
-        multiline
-        textAlignVertical="top"
-      />
+          <Text style={globalStyles.label}>Notas (opcional)</Text>
+          <TextInput
+            style={globalStyles.textarea}
+            value={notes}
+            onChangeText={setNotes}
+            placeholder="Observaciones…"
+            multiline
+            textAlignVertical="top"
+          />
+        </ScrollView>
+      </Animated.View>
 
       <View style={globalStyles.footer}>
         <TouchableOpacity
-          style={[globalStyles.buttonSecondary, { marginTop: 8, flex: 1 }]}
+          style={[globalStyles.buttonOutline, { marginTop: 8, flex: 1 }]}
           onPress={() => navigation.goBack()}
           disabled={loading}
         >
-          <Text style={globalStyles.buttonTextPrimary}>Cancelar</Text>
+          <Text style={globalStyles.buttonTextOutline}>Cancelar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -151,11 +168,16 @@ export default function CreateClinicalRecordScreen() {
           onPress={handleSave}
           disabled={loading}
         >
-          <Text style={globalStyles.buttonTextPrimary}>
-            {loading ? "Guardando…" : "Guardar"}
-          </Text>
+          <Text style={globalStyles.buttonTextPrimary}>{loading ? "Guardando…" : "Guardar"}</Text>
         </TouchableOpacity>
       </View>
+            <AppModal
+        visible={modalData.visible}
+        title={modalData.title}
+        message={modalData.message}
+        tone={modalData.tone}
+        onPrimary={() => setModalData({ visible: false, title: "", message: "", tone: "info" })}
+      />
     </View>
   );
 }

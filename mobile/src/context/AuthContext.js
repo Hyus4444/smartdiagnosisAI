@@ -8,13 +8,27 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
+    const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+    const loadProfile = async () => {
+    try {
+      const me = await authService.getMe();
+      setUser(me);
+      return me;
+    } catch (_) {
+      setUser(null);
+      return null;
+    }
+  };
+
 
   const login = async (email, password) => {
     setIsLoading(true);
     try {
-      const token = await authService.login(email, password);
-      setToken(token);
+      const nextToken = await authService.login(email, password);
+      setToken(nextToken);
+      await loadProfile();
     } finally {
       setIsLoading(false);
     }
@@ -31,16 +45,19 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setToken(null);
+    setUser(null);
   };
 
   return (
     <AuthContext.Provider
       value={{
         token,
+        user,
         isLoading,
         login,
         register,
         logout,
+        refreshUser: loadProfile,
         isAuthenticated: !!token,
       }}
     >

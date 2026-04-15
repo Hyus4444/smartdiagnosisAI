@@ -1,0 +1,12 @@
+variable,value,predicted_risk,model,variant
+blood_glucose_level,120,0.01182541725081395,RandomForest,sigmoid
+blood_glucose_level,130,0.011936631825587537,RandomForest,sigmoid
+blood_glucose_level,140,0.011519356349117577,RandomForest,sigmoid
+blood_glucose_level,150,0.028575089982580584,RandomForest,sigmoid
+blood_glucose_level,160,0.03273237359145074,RandomForest,sigmoid
+blood_glucose_level,170,0.03273237359145074,RandomForest,sigmoid
+blood_glucose_level,180,0.033613639792853416,RandomForest,sigmoid
+blood_glucose_level,190,0.02132655177295317,RandomForest,sigmoid
+blood_glucose_level,200,0.02132655177295317,RandomForest,sigmoid
+blood_glucose_level,210,0.02132655177295317,RandomForest,sigmoid
+blood_glucose_level,220,0.9619507395480764,RandomForest,sigmoid

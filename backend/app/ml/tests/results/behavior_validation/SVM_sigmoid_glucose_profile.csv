@@ -1,0 +1,12 @@
+variable,value,predicted_risk,model,variant
+blood_glucose_level,120,0.0045826983627722815,SVM,sigmoid
+blood_glucose_level,130,0.007815535111395829,SVM,sigmoid
+blood_glucose_level,140,0.008631262405441762,SVM,sigmoid
+blood_glucose_level,150,0.006876271770357777,SVM,sigmoid
+blood_glucose_level,160,0.004656960684656849,SVM,sigmoid
+blood_glucose_level,170,0.003273925080506654,SVM,sigmoid
+blood_glucose_level,180,0.0029359456521840716,SVM,sigmoid
+blood_glucose_level,190,0.0040231342259827475,SVM,sigmoid
+blood_glucose_level,200,0.009549721374387277,SVM,sigmoid
+blood_glucose_level,210,0.04061822268426477,SVM,sigmoid
+blood_glucose_level,220,0.24895222696406874,SVM,sigmoid
