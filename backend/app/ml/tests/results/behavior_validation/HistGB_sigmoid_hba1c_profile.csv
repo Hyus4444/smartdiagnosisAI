@@ -1,0 +1,17 @@
+variable,value,predicted_risk,model,variant
+HbA1c_level,5.5,0.033438859725647176,HistGB,sigmoid
+HbA1c_level,5.6,0.033438859725647176,HistGB,sigmoid
+HbA1c_level,5.7,0.033438859725647176,HistGB,sigmoid
+HbA1c_level,5.8,0.03387313551634642,HistGB,sigmoid
+HbA1c_level,5.9,0.03550278452606364,HistGB,sigmoid
+HbA1c_level,6.0,0.03550278452606364,HistGB,sigmoid
+HbA1c_level,6.1,0.03540077789469764,HistGB,sigmoid
+HbA1c_level,6.2,0.0317269299744951,HistGB,sigmoid
+HbA1c_level,6.3,0.0317269299744951,HistGB,sigmoid
+HbA1c_level,6.4,0.03232459850053733,HistGB,sigmoid
+HbA1c_level,6.5,0.03232459850053733,HistGB,sigmoid
+HbA1c_level,6.6,0.03362881631469163,HistGB,sigmoid
+HbA1c_level,6.7,0.9978507595841828,HistGB,sigmoid
+HbA1c_level,6.8,0.9978507595841828,HistGB,sigmoid
+HbA1c_level,6.9,0.9978507595841828,HistGB,sigmoid
+HbA1c_level,7.0,0.9978507595841828,HistGB,sigmoid

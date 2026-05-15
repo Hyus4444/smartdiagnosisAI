@@ -1,0 +1,46 @@
+{
+  "data_file": "C:/Users/Jairo/Documents/Repositorios/Proyecto de grado/SmartDiagnosisAI/backend/app/ml/data/raw/diabetes_prediction_dataset.csv",
+  "target": "diabetes",
+  "dropped_columns": [
+    "smoking_history"
+  ],
+  "drop_gender_other": true,
+  "configs": [
+    {
+      "name": "svm_balanced_sigmoid",
+      "C": 1.0,
+      "gamma": "scale",
+      "class_weight": "balanced",
+      "calibration": "sigmoid"
+    },
+    {
+      "name": "svm_w13_sigmoid",
+      "C": 1.0,
+      "gamma": 0.05,
+      "class_weight": {
+        "0": 1,
+        "1": 3
+      },
+      "calibration": "sigmoid"
+    },
+    {
+      "name": "svm_w12_sigmoid",
+      "C": 0.5,
+      "gamma": 0.05,
+      "class_weight": {
+        "0": 1,
+        "1": 2
+      },
+      "calibration": "sigmoid"
+    },
+    {
+      "name": "svm_balanced_raw",
+      "C": 1.0,
+      "gamma": "scale",
+      "class_weight": "balanced",
+      "calibration": null
+    }
+  ],
+  "test_size": 0.2,
+  "random_state": 42
+}
